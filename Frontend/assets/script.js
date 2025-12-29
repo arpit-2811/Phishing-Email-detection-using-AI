@@ -101,7 +101,7 @@
     if (!text) return null;
 
     try {
-      const response = await fetch('http://localhost:5000/api/analyze', {
+      const response = await fetch('https://phishing-email-detection-using-ai.onrender.com/api/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -349,7 +349,7 @@
         aiChat.scrollTop = aiChat.scrollHeight;
 
         try {
-          const res = await fetch('http://localhost:5000/api/chat', {
+          const res = await fetch('https://phishing-email-detection-using-ai.onrender.com/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question: q, context: window.lastReport })
