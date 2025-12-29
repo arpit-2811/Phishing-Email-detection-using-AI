@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhishGuard — Reports</title>
+  <script>window.tailwindConfig = { darkMode: 'class' }</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { slate: { 850: '#1e293b', 900: '#0f172a', 950: '#020617' } },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/logo.svg">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .dark .glass-nav {
+      background: rgba(15, 23, 42, 0.75);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+  <header
+    class="fixed w-full top-0 z-50 glass-nav border-b border-gray-200/50 dark:border-slate-800/50 transition-all duration-300"
+    id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.location.href='index.html'">
+          <img src="assets/logo.svg" class="w-8 h-8 sm:w-9 sm:h-9 hover:rotate-12 transition-transform duration-300"
+            alt="PhishGuard">
+          <span
+            class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300">PhishGuard</span>
+        </div>
+
+        <nav class="hidden md:flex gap-1 items-center">
+          <a href="index.html"
+            class="navlink px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
+            data-page="home">Home</a>
+          <a href="analyze.html"
+            class="navlink px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
+            data-page="analyze">Analyze</a>
+          <a href="feed.html"
+            class="navlink px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
+            data-page="feed">Feed</a>
+          <a href="reports.html"
+            class="navlink px-4 py-2 rounded-full text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
+            data-page="reports">Reports</a>
+        </nav>
+
+        <div class="hidden md:flex items-center gap-4">
+          <button id="theme-toggle"
+            class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+            <span class="dark:hidden">🌙</span>
+            <span class="hidden dark:inline">☀️</span>
+          </button>
+          <a href="login.html"
+            class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Login</a>
+          <button id="logoutBtn"
+            class="hidden px-4 py-2 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-500/20 transition-colors">Logout</button>
+        </div>
+
+        <div class="md:hidden flex items-center gap-4">
+          <button id="theme-toggle-mobile"
+            class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+            <span class="dark:hidden">🌙</span><span class="hidden dark:inline">☀️</span>
+          </button>
+          <button id="mobileMenuBtn"
+            class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+      class="hidden md:hidden absolute w-full bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 shadow-xl">
+      <div class="px-4 pt-4 pb-6 space-y-2">
+        <a href="index.html"
+          class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Home</a>
+        <a href="analyze.html"
+          class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Analyze</a>
+        <a href="feed.html"
+          class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Feed</a>
+        <a href="reports.html"
+          class="block px-4 py-3 rounded-lg text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Reports</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 lg:pt-32 lg:pb-24">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Analysis History</h1>
+        <p class="text-slate-500 dark:text-slate-400 mt-2">Export your scan results and track trends.</p>
+      </div>
+      <button onclick="exportReports()"
+        class="px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        Export CSV
+      </button>
+    </div>
+
+    <!-- Login Prompt (Shown if not logged in) -->
+    <div id="loginPrompt"
+      class="hidden flex flex-col items-center justify-center py-20 text-center space-y-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="w-16 h-16 bg-indigo-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-3xl">🔒
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Login Required</h3>
+        <p class="text-slate-500 dark:text-slate-400 mt-2 max-w-sm mx-auto">Please sign in to access your secure
+          analysis history and saved reports.</p>
+      </div>
+      <a href="login.html"
+        class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-indigo-500/30">Login
+        to View History</a>
+    </div>
+
+    <!-- Reports Table Container (Shown if logged in) -->
+    <div id="reportsContainer"
+      class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr
+              class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
+              <th class="px-6 py-4 font-bold border-b border-slate-100 dark:border-slate-700">Date</th>
+              <th class="px-6 py-4 font-bold border-b border-slate-100 dark:border-slate-700">Subject</th>
+              <th class="px-6 py-4 font-bold border-b border-slate-100 dark:border-slate-700">Type</th>
+              <th class="px-6 py-4 font-bold border-b border-slate-100 dark:border-slate-700 text-right">Risk Score</th>
+              <th class="px-6 py-4 font-bold border-b border-slate-100 dark:border-slate-700 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTable" class="divide-y divide-slate-100 dark:divide-slate-800">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="reportModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4">
+      <!-- Backdrop -->
+      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeReportModal()"></div>
+
+      <!-- Modal Content -->
+      <div
+        class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-fade-in border border-slate-200 dark:border-slate-700">
+        <!-- Header -->
+        <div id="modalHeader"
+          class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start bg-slate-50 dark:bg-slate-800/50">
+          <div>
+            <div id="modalDate" class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1"></div>
+            <h2 id="modalSubject" class="text-xl font-bold text-slate-900 dark:text-white leading-tight"></h2>
+          </div>
+          <button onclick="closeReportModal()"
+            class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors">
+            <svg class="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 space-y-6">
+          <!-- Score Block -->
+          <div
+            class="flex items-center gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+            <div id="modalScoreBox"
+              class="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold border-4"></div>
+            <div>
+              <div class="text-sm text-slate-500 dark:text-slate-400">Risk Assessment</div>
+              <div id="modalRiskLabel" class="text-lg font-bold"></div>
+            </div>
+          </div>
+
+          <!-- Analysis Details -->
+          <div class="space-y-4">
+            <div>
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-wide">AI Summary</h4>
+              <p id="modalSummary"
+                class="text-slate-600 dark:text-slate-300 bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg border border-indigo-100 dark:border-indigo-900/30 leading-relaxed">
+              </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                <span class="text-xs text-slate-500 uppercase font-bold">Category</span>
+                <div id="modalType" class="font-medium text-slate-900 dark:text-white mt-1"></div>
+              </div>
+              <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                <span class="text-xs text-slate-500 uppercase font-bold">Links Found</span>
+                <div id="modalLinks" class="font-medium text-slate-900 dark:text-white mt-1"></div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2 uppercase tracking-wide">Key Findings
+              </h4>
+              <ul id="modalFindings" class="list-disc list-inside space-y-1 text-slate-600 dark:text-slate-400 text-sm">
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div
+          class="p-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-3 justify-end bg-slate-50 dark:bg-slate-900 rounded-b-2xl">
+          <button id="modalDeleteBtn"
+            class="px-4 py-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-medium transition-colors mr-auto">
+            Delete Report
+          </button>
+
+          <button id="modalShareFeedBtn"
+            class="px-4 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700">
+            Share to Feed
+          </button>
+
+          <button id="modalShareBtn"
+            class="px-4 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700">
+            Share Copy
+          </button>
+
+          <button id="modalDownloadBtn"
+            class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium shadow-lg hover:shadow-indigo-500/30 transition-all">
+            Download Text
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+      © 2025 PhishGuard Security. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="assets/script.js?v=3"></script>
+  <script>
+    function exportReports() {
+      const user = firebase.auth().currentUser;
+      if (!user) return alert('Please login to export reports.');
+
+      const arr = JSON.parse(localStorage.getItem(`pg_reports_${user.uid}`) || '[]');
+      if (!arr.length) return alert('No reports found.');
+      const csv = 'Date,Subject,Type,Risk Score,Summary\n' + arr.map(r => `${r.date},"${r.subject.replace(/"/g, '""')}",${r.type},${r.score},"${r.summary.replace(/"/g, '""')}"`).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'phishguard_reports.csv';
+      a.click();
+    }
+    function closeReportModal() {
+      document.getElementById('reportModal').classList.add('hidden');
+    }
+    const themeBtns = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => { document.documentElement.classList.toggle('dark'); });
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+
+</html>
