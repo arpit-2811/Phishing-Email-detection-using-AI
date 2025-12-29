@@ -1199,28 +1199,35 @@
     if (typeof firebase === 'undefined' || !firebase.auth) return;
 
     const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtnMobile = document.getElementById('logoutBtnMobile');
     const loginLinks = document.querySelectorAll('a[href="login.html"]');
+    const signupLinks = document.querySelectorAll('a[href="signup.html"]');
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // USER LOGGED IN
         if (logoutBtn) logoutBtn.classList.remove('hidden');
+        if (logoutBtnMobile) logoutBtnMobile.classList.remove('hidden');
         loginLinks.forEach(l => l.classList.add('hidden'));
+        signupLinks.forEach(l => l.classList.add('hidden'));
       } else {
         // USER LOGGED OUT
         if (logoutBtn) logoutBtn.classList.add('hidden');
+        if (logoutBtnMobile) logoutBtnMobile.classList.add('hidden');
         loginLinks.forEach(l => l.classList.remove('hidden'));
+        signupLinks.forEach(l => l.classList.remove('hidden'));
       }
     });
 
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        firebase.auth().signOut().then(() => {
-          localStorage.removeItem('pg_user');
-          window.location.href = 'login.html';
-        });
+    const handleLogout = () => {
+      firebase.auth().signOut().then(() => {
+        localStorage.removeItem('pg_user');
+        window.location.href = 'login.html';
       });
-    }
+    };
+
+    if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+    if (logoutBtnMobile) logoutBtnMobile.addEventListener('click', handleLogout);
   }
 
 
@@ -1272,38 +1279,7 @@
     }
   }
 
-  // Auth State Changed
-  if (typeof firebase !== 'undefined') {
-    firebase.auth().onAuthStateChanged(user => {
-      // 1. Update Header Buttons
-      const loginBtn = document.querySelector('a[href="login.html"]');
-      const signupBtn = document.querySelector('a[href="signup.html"]');
-      const logoutBtn = document.getElementById('logoutBtn');
-
-      if (user) {
-        if (loginBtn) loginBtn.classList.add('hidden');
-        if (signupBtn) signupBtn.classList.add('hidden');
-        if (logoutBtn) logoutBtn.classList.remove('hidden');
-      } else {
-        if (loginBtn) loginBtn.classList.remove('hidden');
-        if (signupBtn) signupBtn.classList.remove('hidden');
-        if (logoutBtn) logoutBtn.classList.add('hidden');
-      }
-
-      // 2. Update Recent Scans (if on Analyze page)
-      updateRecentScansUI(user);
-
-      // 3. Update Reports Table (if on Reports page)
-      if (document.getElementById('reportsTable')) {
-        // Re-init reports to load data
-        // We can just call initReports again if it handles auth check, 
-        // but let's be safe and let initReports handle it on load, 
-        // and this refresher handle updates.
-        const w = window;
-        if (w.initReportsRefresher) w.initReportsRefresher(user);
-      }
-    });
-  }
+  // (Old listeners removed. Logic moved to initTheme and initFirebaseAuthUI)
 
 
   // ---------------------------------------------------------
@@ -1438,10 +1414,80 @@
 
 
 
+  // Theme Management with Persistence
+  function initTheme() {
+    const themeBtns = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+
+    // 1. Initial Load
+    const savedTheme = localStorage.getItem('pg_theme');
+    // If saved is dark, OR no save but system preference is dark
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // 2. Toggle Listeners
+    themeBtns.forEach(btn => {
+      // Clone element to remove old listeners if any, or just add new one (safe to add multiple?)
+      // Better to just add listener.
+      btn.addEventListener('click', () => {
+        console.log('Theme toggle clicked');
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        console.log('New theme:', isDark ? 'dark' : 'light');
+        localStorage.setItem('pg_theme', isDark ? 'dark' : 'light');
+      });
+    });
+  }
+
+  function initFirebaseAuthUI() {
+    // ensure firebase & auth exist
+    if (typeof firebase === 'undefined' || !firebase.auth) return;
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+    const loginLinks = document.querySelectorAll('a[href="login.html"]');
+    const signupLinks = document.querySelectorAll('a[href="signup.html"]');
+
+    function updateAuthUI(user) {
+      if (user) {
+        // USER LOGGED IN
+        if (logoutBtn) logoutBtn.classList.remove('hidden');
+        if (logoutBtnMobile) logoutBtnMobile.classList.remove('hidden');
+        loginLinks.forEach(l => l.classList.add('hidden'));
+        signupLinks.forEach(l => l.classList.add('hidden'));
+      } else {
+        // USER LOGGED OUT
+        if (logoutBtn) logoutBtn.classList.add('hidden');
+        if (logoutBtnMobile) logoutBtnMobile.classList.add('hidden');
+        loginLinks.forEach(l => l.classList.remove('hidden'));
+        signupLinks.forEach(l => l.classList.remove('hidden'));
+      }
+    }
+
+    firebase.auth().onAuthStateChanged(user => {
+      updateAuthUI(user);
+    });
+
+    const handleLogout = () => {
+      firebase.auth().signOut().then(() => {
+        localStorage.removeItem('pg_user');
+        window.location.href = 'login.html';
+      });
+    };
+
+    if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+    if (logoutBtnMobile) logoutBtnMobile.addEventListener('click', handleLogout);
+  }
+
   // ---------------------------------------------------------
   // Init when DOM Ready
   // ---------------------------------------------------------
   document.addEventListener('DOMContentLoaded', function () {
+    // initTheme should run immediately to prevent flash, but here is fine too
+    initTheme();
+
     markNav();
     initMobileMenu();
     initNavbarScroll();
